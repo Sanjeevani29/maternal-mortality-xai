@@ -1,0 +1,23 @@
+nfhs5:
+  canonical_name: "NFHS-5 India District Factsheets, 2019-2021"
+  publisher: "Ministry of Health and Family Welfare / IIPS"
+  official_catalog: "https://www.data.gov.in/catalog/national-family-health-survey-5-nfhs-5-india-districts-factsheet-data-provisional"
+  mirror_url: "https://raw.githubusercontent.com/SaiSiddhardhaKalla/NFHS/main/India.csv"
+  license_note: "Use the official catalog as the source of record; the downloaded machine-readable mirror is derived from official district fact sheets."
+  retrieved_file: "data/raw/nfhs5_districts_source.csv"
+district_boundaries:
+  canonical_name: "NFHS-aligned India district boundaries"
+  publisher: "NFHS community data mirror"
+  source_url: "https://raw.githubusercontent.com/SaiSiddhardhaKalla/NFHS/main/Districts.geojson"
+  retrieved_file: "data/raw/india_districts_source.geojson"
+  limitation: "The supplied geometry covers 641 census-era districts; new NFHS-5 districts without matching polygons are listed in data/processed/geo_match_audit.csv as no_polygon and are never fabricated."
+hmis:
+  canonical_name: "HMIS C2 Data Itemwise Monthly - All States and Districts Across Months"
+  publisher: "Ministry of Health and Family Welfare, Government of India"
+  standard_reports_url: "https://hmis.mohfw.gov.in/#!/standardReports"
+  report_path: "C2 Data Itemwise Monthly (up to sub district) > All States and Districts Across Months"
+  annual_files:
+    "2019_20": "data/raw/hmis_2019_20_official.zip"
+    "2020_21": "data/raw/hmis_2020_21_official.zip"
+    "2021_22": "data/raw/hmis_2021_22_official.zip"
+  limitation: "The unauthenticated national archive listed 2019-20 but not the later two FY files at retrieval time. The pipeline pools every archive present (minimum set by real_data.minimum_hmis_years) and records the pooled window in data/processed/data_provenance.json."

@@ -1,0 +1,44 @@
+# Candidate Stage-2 features grouped into the five thematic domains.
+# Stage-1 anchors (institutional births, mortality/morbidity counts and rates) are never listed here;
+# src/target/ols_priority_classifier.py enforces that with a leakage firewall.
+# Candidates may be removed automatically by the missingness, anchor-proxy and VIF rules; the
+# decisions are written to data/processed/feature_selection_audit.csv.
+emergency_facility_quality:
+  - public_c_section_pct
+  - public_c_section_deficit
+  - private_c_section_pct
+  - skilled_birth_attendance_pct
+  - hmis_c_section_rate_pct
+  - hmis_blood_units_per_1000_deliveries
+  - hmis_jssk_transport_pct
+  - hmis_early_discharge_pct
+maternal_health_nutrition:
+  - pregnant_anaemia_pct
+  - all_women_anaemia_pct
+  - hmis_severe_anaemia_pct
+  - low_bmi_pct
+  - teenage_pregnancy_pct
+  - married_before_18_pct
+  - ifa_100_days_pct
+  - hmis_ifa_180_pct
+  - female_elevated_bp_pct
+  - female_high_blood_sugar_pct
+healthcare_access_delivery:
+  - anc_4_plus_pct
+  - first_trimester_anc_pct
+  - hmis_first_trimester_reg_pct
+  - postnatal_48h_pct
+  - oop_expenditure_log
+  - tetanus_protected_pct
+  - mcp_card_pct
+socioeconomic_education:
+  - female_literacy_pct
+  - women_10y_schooling_pct
+  - female_ever_schooled_pct
+  - health_insurance_pct
+  - death_registration_pct
+infrastructure_wash:
+  - electricity_pct
+  - improved_water_pct
+  - improved_sanitation_pct
+  - clean_cooking_fuel_pct

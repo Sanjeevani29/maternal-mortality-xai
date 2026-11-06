@@ -1,0 +1,15 @@
+emergency_facility_quality:
+  scheme: "LaQshya & NHM FRU/Blood Bank Upgradation"
+  action: "Audit emergency obstetric readiness, referral transfer and blood availability."
+maternal_health_nutrition:
+  scheme: "POSHAN Abhiyaan & Anaemia Mukt Bharat"
+  action: "Review anaemia screening, IFA adherence and nutrition support pathways."
+healthcare_access_delivery:
+  scheme: "PMSMA (9th of every month high-risk ANC) & Janani Suraksha Yojana"
+  action: "Strengthen early ANC, high-risk follow-up, postnatal care and financial-access pathways."
+socioeconomic_education:
+  scheme: "Beti Bachao Beti Padhao & PM-JAY Ayushman Bharat"
+  action: "Coordinate health access with education, insurance and social-support teams."
+infrastructure_wash:
+  scheme: "Jal Jeevan Mission & Swachh Bharat / IPHS PHC norms"
+  action: "Audit water, sanitation and reliable power at household and facility level."

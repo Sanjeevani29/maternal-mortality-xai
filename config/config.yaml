@@ -1,0 +1,155 @@
+project:
+  random_state: 42
+  demo_rows: 240
+
+paths:
+  nfhs_source: data/raw/nfhs5_districts_source.csv
+  hmis_2019_20: data/raw/hmis_2019_20_official.zip
+  hmis_2020_21: data/raw/hmis_2020_21_official.zip
+  hmis_2021_22: data/raw/hmis_2021_22_official.zip
+  district_geojson: data/raw/india_districts_source.geojson
+  nfhs_raw: data/interim/nfhs5_districts_canonical.csv
+  hmis_raw: data/interim/hmis_maternal_2019_21.csv
+  provenance: data/processed/data_provenance.json
+  geojson_simplified: data/processed/india_districts_simplified.geojson
+  geo_match_audit: data/processed/geo_match_audit.csv
+  master_dataset: data/processed/master_district_dataset.csv
+  match_audit: data/processed/match_audit.csv
+  feature_audit: data/processed/feature_selection_audit.csv
+  priority_table: data/processed/priority_action_table.csv
+  shap_matrix: data/processed/shap_matrix_class1.parquet
+  domain_shares: data/processed/domain_shares.csv
+  model: models/best_classifier_pipeline.joblib
+  calibrated_model: models/calibrated_classifier.joblib
+  stage1_model: models/ols_anchor_model.joblib
+  metrics: models/benchmark_metrics.json
+  validation_report: models/validation_report.json
+  figures: reports/figures
+
+target:
+  # Mortality-only composite (blueprint toggle). The HMIS "obstetric complications attended" item is not
+  # comparable across states (Tamil Nadu median 56% of deliveries vs 5.4% nationally), so including it
+  # (previous default 0.70 / 0.30) made the labels partly measure reporting practice.
+  mortality_weight: 1.00
+  morbidity_weight: 0.00
+  eb_prior_live_births: 3000
+  care_threshold: median
+  residual_threshold: 0.25
+  low_access_audit_threshold: 60.0
+  # Districts with fewer pooled live births than this are excluded from modelling: their
+  # facility-reported ratios are dominated by reporting noise even after EB smoothing.
+  minimum_live_births: 500
+
+preprocessing:
+  # Rule 1: drop any configured feature missing in more than this share of districts.
+  max_missing_share: 0.20
+  # Iteratively drop the highest-VIF feature above this threshold (blueprint: retain if VIF < 7.5).
+  vif_threshold: 7.5
+  # Drop features that are near-duplicates of the Stage-1 care anchor (proxy leakage).
+  anchor_proxy_max_abs_corr: 0.90
+  knn_neighbors: 5
+  # The community NFHS mirror encodes suppressed (*) factsheet values as 0. For these indicators a
+  # true zero is implausible, so 0 is treated as missing.
+  zero_as_missing:
+    - pregnant_anaemia_pct
+    - all_women_anaemia_pct
+    - private_c_section_pct
+    - public_c_section_pct
+    - low_bmi_pct
+    - oop_expenditure_inr
+    - death_registration_pct
+    - anc_4_plus_pct
+    - first_trimester_anc_pct
+    - postnatal_48h_pct
+    - female_literacy_pct
+    - women_10y_schooling_pct
+    - electricity_pct
+    - improved_water_pct
+    - improved_sanitation_pct
+    - clean_cooking_fuel_pct
+    - tetanus_protected_pct
+    - mcp_card_pct
+    - skilled_birth_attendance_pct
+    - female_elevated_bp_pct
+    - health_insurance_pct
+
+modelling:
+  # discordance_binary: train Stage 2 only on high-access districts (Priority vs Best Performer).
+  #   Both classes share above-threshold institutional births, so access proxies cannot separate them
+  #   and SHAP drivers reflect quality/nutrition/structural determinants of discordance.
+  # four_class: original blueprint formulation (all four quadrants).
+  task: discordance_binary
+  # Class-1 decision threshold chosen on out-of-fold probabilities to reach this recall (screening use).
+  threshold_tuning: true
+  target_class_1_recall: 0.82
+  test_size: 0.20
+  cv_folds: 5
+  priority_class_weight_multiplier: 1.25
+  optuna_trials: 50
+  # Selection objective: 0.60 * F1(class 1) + 0.40 * macro F1
+  class_1_objective_weight: 0.60
+  calibration_method: isotonic
+
+matching:
+  automatic_match_threshold: 90
+  review_match_threshold: 75
+  aliases_path: config/district_aliases.json
+
+dashboard:
+  # Orientation for the scorecard radar: for these features a higher value means more deprivation.
+  # All other features are treated as "higher is better" and inverted for the deprivation percentile.
+  higher_is_worse:
+    - public_c_section_deficit
+    - hmis_early_discharge_pct
+    - pregnant_anaemia_pct
+    - all_women_anaemia_pct
+    - hmis_severe_anaemia_pct
+    - low_bmi_pct
+    - teenage_pregnancy_pct
+    - married_before_18_pct
+    - female_elevated_bp_pct
+    - female_high_blood_sugar_pct
+    - oop_expenditure_log
+    - wash_deprivation_score
+
+simulator:
+  max_sliders: 8
+  modifiable_features:
+    - hmis_severe_anaemia_pct
+    - hmis_blood_units_per_1000_deliveries
+    - hmis_jssk_transport_pct
+    - hmis_early_discharge_pct
+    - hmis_c_section_rate_pct
+    - hmis_ifa_180_pct
+    - hmis_first_trimester_reg_pct
+    - public_c_section_pct
+    - public_c_section_deficit
+    - pregnant_anaemia_pct
+    - all_women_anaemia_pct
+    - low_bmi_pct
+    - ifa_100_days_pct
+    - anc_4_plus_pct
+    - first_trimester_anc_pct
+    - postnatal_48h_pct
+    - tetanus_protected_pct
+    - mcp_card_pct
+    - oop_expenditure_log
+    - health_insurance_pct
+    - improved_sanitation_pct
+    - clean_cooking_fuel_pct
+
+# Geographic zones used as the imputation fallback cohort for states/UTs with too few districts.
+zones:
+  north: [Jammu & Kashmir, Ladakh, Himachal Pradesh, Punjab, Chandigarh, Haryana, NCT of Delhi, Rajasthan]
+  central: [Uttar Pradesh, Uttarakhand, Madhya Pradesh, Chhattisgarh]
+  east: [Bihar, Jharkhand, Odisha, West Bengal]
+  north_east: [Assam, Arunachal Pradesh, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura]
+  west: [Gujarat, Maharashtra, Goa, Dadra & Nagar Haveli, Daman & Diu]
+  south: [Andhra Pradesh, Telangana, Karnataka, Kerala, Tamil Nadu, Puducherry, Lakshadweep, Andaman & Nicobar Island]
+
+real_data:
+  hmis_years: ["2019_20", "2020_21", "2021_22"]
+  minimum_hmis_years: 1
+  minimum_nfhs_districts: 700
+  minimum_matched_share: 0.85
+  source_registry: config/data_sources.yaml

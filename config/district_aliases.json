@@ -1,0 +1,76 @@
+{
+  "_comment": "Keys and values are normalised (lowercase, '&' -> 'and', punctuation removed) before use. 'districts' aliases are applied to both NFHS and HMIS names. 'hmis_aggregate' sums HMIS counts of districts carved out after the NFHS-5 frame into the NFHS parent. Districts that NFHS-5 splits but HMIS 2019-20 does not (e.g. Assam's 2016 districts, Mumbai/Mumbai Suburban) cannot be split without population weights and are left unmatched, i.e. excluded from modelling and listed in match_audit.csv.",
+  "states": {
+    "orissa": "odisha",
+    "delhi": "nct of delhi",
+    "a and n islands": "andaman and nicobar island",
+    "andaman and nicobar islands": "andaman and nicobar island"
+  },
+  "hmis_state_overrides": {
+    "leh ladakh": "ladakh",
+    "leh": "ladakh",
+    "kargil": "ladakh"
+  },
+  "hmis_aggregate": {
+    "west bengal": {
+      "jalpaiguri": ["jalpaiguri", "alipurduar"],
+      "darjeeling": ["darjeeling", "kalimpong"],
+      "paschim medinipur": ["paschim medinipur", "jhargram"]
+    },
+    "mizoram": {
+      "aizawl": ["aizawl east", "aizawl west"]
+    }
+  },
+  "districts": {
+    "allahabad": "prayagraj",
+    "gulbarga": "kalaburagi",
+    "west midnapore": "paschim medinipur",
+    "bellary": "ballari",
+    "bangalore urban": "bangalore",
+    "sri potti sriramulu nellore": "nellore",
+    "y s r": "cuddapah",
+    "kamrup metropolitan": "kamrup m",
+    "kamrup": "kamrup r",
+    "morigaon": "marigaon",
+    "sivasagar": "sibsagar",
+    "pashchim champaran": "west champaran",
+    "purba champaran": "east champaran",
+    "kabeerdham": "kawardha",
+    "uttar bastar kanker": "kanker",
+    "chhota udaipur": "chhotaudepur",
+    "panchmahal": "panch mahals",
+    "sabarkantha": "sabar kantha",
+    "dadri": "charkhi dadri",
+    "gurgaon": "gurugram",
+    "lahul and spiti": "lahul spiti",
+    "bandipore": "bandipora",
+    "punch": "poonch",
+    "shupiyan": "shopian",
+    "khandwa east nimar": "khandwa",
+    "khargone west nimar": "khargone",
+    "narsimhapur": "narsinghpur",
+    "singrauli": "singroli",
+    "ribhoi": "ri bhoi",
+    "debagarh": "deogarh",
+    "kendujhar": "keonjhar",
+    "subarnapur": "sonapur",
+    "puducherry": "pondicherry",
+    "sahibzada ajit singh nagar": "mohali sas nagar",
+    "shahid bhagat singh nagar": "nawanshahr",
+    "the nilgiris": "nilgiris",
+    "komaram bheem asifabad": "komaram bheem",
+    "medchalmalkajgiri": "medchal malkajgiri",
+    "yadadri bhuvanagiri": "yadadri bhonagiri",
+    "amethi": "c s m nagar",
+    "mahamaya nagar": "hathras",
+    "bara banki": "barabanki",
+    "kanshiram nagar": "kashi ram nagar",
+    "kheri": "lakhimpur kheri",
+    "mau": "maunathbhanjan",
+    "sant ravidas nagar bhadohi": "sant ravidas nagar",
+    "siddharthnagar": "siddharth nagar",
+    "unnao": "unnav",
+    "pauri garhwal": "garhwal",
+    "darjiling": "darjeeling"
+  }
+}

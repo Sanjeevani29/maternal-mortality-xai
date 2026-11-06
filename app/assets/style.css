@@ -1,0 +1,18 @@
+/* Policy-card and KPI styling for the decision-support dashboard. */
+.block-container { padding-top: 1.6rem; padding-bottom: 2rem; }
+div[data-testid="stMetric"] {
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  padding: 0.55rem 0.8rem;
+}
+div[data-testid="stMetricLabel"] p { font-size: 0.8rem; opacity: 0.8; }
+.class-pill {
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  margin: 0.4rem 0 0.8rem 0;
+}
+button[data-baseweb="tab"] p { font-weight: 600; }

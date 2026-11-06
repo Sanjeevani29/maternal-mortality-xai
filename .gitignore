@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.DS_Store
+.ipynb_checkpoints/
+
+# Raw, interim and generated public-health records are governed outside Git.
+data/raw/*
+data/interim/
+data/demo/
+data/processed/*
+models/*.joblib
+models/*.json
+reports/figures/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!models/.gitkeep
+!reports/figures/.gitkeep
