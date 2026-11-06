@@ -1,0 +1,490 @@
+<title>Maternal Risk Discordance in Indian Districts</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column (~70ch) with a sticky section index on wide screens; figures sit on white plates. */
+:root {
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --ink: #17212b;
+  --muted: #55636f;
+  --rule: #d8dee4;
+  --accent: #1d5c86;
+  --accent-soft: #e3eef6;
+  --priority: #b3261e;
+  --ok: #2e7d4f;
+  --warn: #9a6200;
+  --plate: #ffffff;
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.5rem;
+  --step-3: 2.1rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11171d; --surface: #182129; --ink: #e4eaef; --muted: #9aa8b4; --rule: #2c3842;
+    --accent: #7fb6dc; --accent-soft: #1d3142; --priority: #f08a80; --ok: #7cc79b; --warn: #e3b25c; --plate: #f4f6f8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11171d; --surface: #182129; --ink: #e4eaef; --muted: #9aa8b4; --rule: #2c3842;
+  --accent: #7fb6dc; --accent-soft: #1d3142; --priority: #f08a80; --ok: #7cc79b; --warn: #e3b25c; --plate: #f4f6f8;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+}
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-block: 2.5rem 4rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+}
+@media (min-width: 960px) {
+  .page { grid-template-columns: 210px minmax(0, 1fr); }
+  nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 1.5rem); align-self: start; }
+}
+nav.toc { font-size: var(--step--1); }
+nav.toc p { margin: 0 0 .5rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; font-size: .72rem; }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; counter-reset: s; }
+nav.toc li { counter-increment: s; }
+nav.toc a { color: var(--ink); text-decoration: none; display: flex; gap: .5rem; }
+nav.toc a::before { content: counter(s); color: var(--muted); font-family: var(--font-mono); min-width: 1.2rem; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); }
+main { min-width: 0; max-width: 72ch; }
+header.title { display: grid; gap: .6rem; padding-bottom: 1.6rem; border-bottom: 1px solid var(--rule); margin-bottom: 1rem; }
+.kicker { text-transform: uppercase; letter-spacing: .1em; font-size: .74rem; color: var(--accent); font-weight: 700; margin: 0; }
+h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-3); line-height: 1.15; margin: 0; text-wrap: balance; }
+.byline { color: var(--muted); font-size: var(--step--1); margin: 0; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-2); line-height: 1.25; margin: 3rem 0 .6rem; text-wrap: balance; scroll-margin-top: 1.5rem; }
+h2 .num { font-family: var(--font-mono); font-size: .8em; color: var(--muted); font-weight: 400; margin-right: .5rem; }
+h3 { font-size: var(--step-1); margin: 1.8rem 0 .4rem; font-weight: 700; text-wrap: balance; }
+p, ul, ol { margin: .7rem 0; }
+li { margin: .25rem 0; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+strong { font-weight: 700; }
+code, .mono { font-family: var(--font-mono); font-size: .88em; }
+code { background: var(--accent-soft); padding: .05rem .3rem; border-radius: 3px; overflow-wrap: anywhere; }
+.num-cell, td.n { font-variant-numeric: tabular-nums; }
+
+.findings { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 1.1rem 1.3rem; margin: 1.2rem 0; }
+.findings h3 { margin-top: 0; }
+.findings ol { padding-left: 1.2rem; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem; margin: 1.4rem 0; }
+.stat { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .8rem .9rem; display: grid; gap: .15rem; align-content: start; }
+.stat .v { font-family: var(--font-mono); font-size: 1.45rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stat .l { font-size: .8rem; color: var(--muted); line-height: 1.35; }
+.stat.priority .v { color: var(--priority); }
+
+.table-wrap { overflow-x: auto; margin: 1rem 0 1.3rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th, td { padding: .45rem .7rem; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; background: var(--accent-soft); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-family: var(--font-mono); font-size: .84rem; white-space: nowrap; }
+tr.sel td { background: color-mix(in srgb, var(--accent-soft) 70%, transparent); font-weight: 600; }
+.caption { font-size: .8rem; color: var(--muted); margin: -.6rem 0 1.2rem; }
+
+figure { margin: 1.4rem 0; display: grid; gap: .5rem; }
+figure .plate { background: var(--plate); border: 1px solid var(--rule); border-radius: 6px; padding: .6rem; }
+figure img { display: block; width: 100%; height: auto; }
+figcaption { font-size: .82rem; color: var(--muted); }
+figcaption b { color: var(--ink); }
+.fig-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+
+.callout { border-left: 3px solid var(--warn); background: var(--surface); padding: .7rem 1rem; margin: 1.2rem 0; border-radius: 0 6px 6px 0; }
+.callout.good { border-left-color: var(--ok); }
+.callout p { margin: .3rem 0; }
+
+.pill { display: inline-block; font-size: .72rem; font-weight: 600; padding: .05rem .5rem; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; }
+.pill.up { color: var(--priority); }
+.pill.down { color: var(--ok); }
+.pill.odd { color: var(--warn); }
+
+.formula { font-family: var(--font-mono); font-size: .86rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: .7rem .9rem; overflow-x: auto; white-space: pre; }
+footer { margin-top: 3.5rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .8rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="page">
+  <nav class="toc" aria-label="Report sections">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#question">Question and design</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#stage1">Stage 1: priority labels</a></li>
+      <li><a href="#stage2">Stage 2: classifier</a></li>
+      <li><a href="#stage3">Stage 3: explanations</a></li>
+      <li><a href="#validation">Validation</a></li>
+      <li><a href="#history">How the design changed</a></li>
+      <li><a href="#limitations">Limitations</a></li>
+      <li><a href="#use">Using the results</a></li>
+      <li><a href="#repro">Reproducibility</a></li>
+      <li><a href="#appendix">Appendix: top 20</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <header class="title">
+      <p class="kicker">Methodology and results report</p>
+      <h1>Maternal Risk Discordance in Indian Districts</h1>
+      <p class="byline">Explainable machine learning on NFHS-5 (2019–21) and HMIS (2017–18 to 2019–20) for 706 districts · Research prototype, not a clinical or allocation tool</p>
+    </header>
+
+    <section id="summary">
+      <h2><span class="num">1</span>Summary</h2>
+      <p>Many Indian districts now deliver almost all births in institutions, yet some of them still record more maternal deaths than their coverage would predict. This project finds those <strong>discordant</strong> districts, explains what distinguishes them from high-coverage districts that do well, and maps the explanation onto national scheme levers (LaQshya, PMSMA, JSY, POSHAN Abhiyaan).</p>
+
+      <div class="stats" role="list">
+        <div class="stat" role="listitem"><span class="v">693</span><span class="l">districts modelled (of 706 in NFHS-5)</span></div>
+        <div class="stat priority" role="listitem"><span class="v">80</span><span class="l">Priority / High-Risk districts</span></div>
+        <div class="stat" role="listitem"><span class="v">0.71</span><span class="l">ROC-AUC when whole states are held out</span></div>
+        <div class="stat" role="listitem"><span class="v">0.84</span><span class="l">Priority recall in cross-validation (precision 0.42)</span></div>
+      </div>
+
+      <div class="findings">
+        <h3>Key findings</h3>
+        <ol>
+          <li><strong>Coverage explains little of the variation in maternal mortality.</strong> Across districts, institutional births correlate with facility-reported maternal mortality at only r = −0.14. Most of the variation lies elsewhere.</li>
+          <li><strong>80 districts are discordant</strong>: institutional births at or above the national median (92.4%) but mortality well above what that coverage predicts. They cluster in Haryana, Madhya Pradesh and Rajasthan (10 each) and Punjab (7).</li>
+          <li><strong>Low caesarean-section rates are the strongest marker.</strong> Discordant districts have a median public-facility C-section rate of 13.4%, against 25.2% in high-coverage districts that perform well. Emergency/facility quality and maternal nutrition each account for about 27% of the model's attribution.</li>
+          <li><strong>The screening model transfers moderately across states.</strong> It finds 84% of Priority districts in cross-validation, and 73% when whole states are held out (ROC-AUC 0.71). Roughly 6 in 10 flagged districts are false alarms, so the list suits audit targeting, not funding decisions.</li>
+          <li><strong>Our mortality figures reproduce published estimates.</strong> Within states, our district ranking matches Goli et al. (2022) at a median Spearman correlation of 0.97.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="question">
+      <h2><span class="num">2</span>Question and design</h2>
+      <p>The question is: <em>among districts with high institutional-delivery coverage, which have unexpectedly high maternal mortality, and what distinguishes them?</em> A model that predicts mortality directly would lean on coverage itself and say little that programme managers can act on. The design therefore separates labelling from explanation.</p>
+      <ol>
+        <li><strong>Stage 1, labels.</strong> Regress district maternal risk on institutional births and keep the residual: how much worse (or better) a district does than its coverage predicts. Combine coverage and residual into four operational classes.</li>
+        <li><strong>Stage 2, classifier.</strong> Train tree ensembles to recognise the discordant class from 31 health-system, nutrition, socioeconomic and infrastructure indicators. Institutional births and every outcome-derived column are blocked from the feature set by a programmatic leakage check.</li>
+        <li><strong>Stage 3, explanations.</strong> Use exact TreeSHAP to attribute each district's classification to indicators, roll them up into five policy domains, and map each district's top drivers to schemes.</li>
+      </ol>
+      <p>Stage 2 compares only <strong>Priority</strong> with <strong>Best Performer</strong> districts. Both groups have above-median coverage by construction, so coverage-related indicators cannot separate them, and the drivers describe why similarly covered districts diverge.</p>
+    </section>
+
+    <section id="data">
+      <h2><span class="num">3</span>Data</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Source</th><th>Coverage</th><th>Used for</th></tr></thead>
+          <tbody>
+            <tr><td>NFHS-5 district fact sheets (MoHFW / IIPS, 2019–21)</td><td>707 districts, 104 indicators</td><td>Coverage anchor (institutional births) and 30 candidate explanatory indicators</td></tr>
+            <tr><td>HMIS C2 item-wise monthly, all states and districts (MoHFW), 2017–18, 2018–19, 2019–20</td><td>704 districts, 19 items</td><td>Maternal deaths and live births (target); C-sections, severe anaemia, blood units, free transport, early discharge, ANC registration, IFA</td></tr>
+            <tr><td>District boundaries (NFHS-aligned GeoJSON)</td><td>641 polygons</td><td>Dashboard map only</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Harmonisation</h3>
+      <ul>
+        <li><strong>HMIS extraction.</strong> The official archives are about 2.5 GB of HTML per year. A streaming parser reads each district's annual all-sector total, and its output was checked against <code>pandas.read_html</code> with zero mismatches. Counts are summed across the three years, never averaged as rates. 673 districts contribute all three years and 31 newer districts contribute two. The median modelled district has 58 maternal deaths in the pooled window.</li>
+        <li><strong>District matching.</strong> Names are matched within each state: curated aliases first, then exact normalised names, then fuzzy token matching (score ≥ 90 accepted automatically). HMIS districts carved out after the NFHS-5 frame (for example Alipurduar and Jhargram in West Bengal, Aizawl East and West in Mizoram) are summed into their NFHS parent. <strong>698 of 706 districts (98.9%) matched.</strong> The 8 unmatched are six 2016 Assam districts and Mumbai/Mumbai Suburban, which HMIS reports only inside larger units and which cannot be split without population weights.</li>
+        <li><strong>Exclusions.</strong> Districts with fewer than 500 pooled live births are dropped as too noisy, leaving <strong>693 modelled districts</strong>.</li>
+        <li><strong>Source quality.</strong> The NFHS mirror stores suppressed factsheet values ("*") as 0; for indicators where zero is implausible these become missing. "Third or higher order births" was excluded because its values do not match the indicator's scale.</li>
+      </ul>
+
+      <h3>Features</h3>
+      <p>34 candidate indicators were grouped into five domains. Three were removed by label-free rules, applied before any modelling:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Removed indicator</th><th>Rule</th><th class="n">Value</th></tr></thead>
+          <tbody>
+            <tr><td>Private-facility C-section rate</td><td>Missing in more than 20% of districts</td><td class="n">20.6%</td></tr>
+            <tr><td>Births attended by skilled personnel</td><td>Near-duplicate of the coverage anchor (|r| &gt; 0.9)</td><td class="n">r = 0.947</td></tr>
+            <tr><td>Female literacy</td><td>Variance inflation factor above 7.5</td><td class="n">VIF 14.6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The remaining <strong>31 features</strong> cover emergency and facility quality (6), maternal health and nutrition (10), healthcare access (7), socioeconomics (4) and infrastructure/WASH (4). Missing values are imputed with a K-nearest-neighbour imputer fitted within each state on training districts only, falling back to the geographic zone and then the national cohort for small states.</p>
+      <p>Indicators named in the original blueprint but <strong>not published at district level</strong> in these sources (JSY assistance, SC/ST and rural share, male literacy, FRU and blood-storage-unit counts) are absent. HMIS proxies are used where they exist: blood units issued per 1,000 deliveries, JSSK free transport and severe anaemia (Hb &lt; 7).</p>
+    </section>
+
+    <section id="stage1">
+      <h2><span class="num">4</span>Stage 1: priority labels</h2>
+      <h3>Maternal risk</h3>
+      <p>District maternal mortality ratios are shrunk toward the state rate with an empirical-Bayes prior worth 3,000 live births, so small districts do not produce extreme ratios from a handful of deaths. The risk score is the standardised (z) smoothed ratio.</p>
+      <div class="formula">MMRᵢ = (deathsᵢ + 3000 · state rate) / (live birthsᵢ + 3000) × 100,000
+riskᵢ = z(MMRᵢ)</div>
+      <p>The smoothed facility MMR has a median of <strong>85.5</strong> per 100,000 live births (interquartile range 53.7–129.2). These are facility-reported figures and are not comparable in level with SRS estimates.</p>
+      <div class="callout">
+        <p><strong>Why mortality only.</strong> The blueprint combined mortality (70%) with a severe-morbidity rate (30%). HMIS reports morbidity only as "obstetric complications attended", and states define that item very differently: Tamil Nadu records it for a median 56% of deliveries against 5.4% nationally. With morbidity included, 26 of 32 Tamil Nadu districts were labelled Priority despite one of the lowest mortality ratios in the country. The morbidity weight is therefore set to zero (configurable).</p>
+      </div>
+
+      <h3>Regression and classes</h3>
+      <div class="formula">riskᵢ = 1.020 − 0.0115 × institutional births %ᵢ + εᵢ        (σ̂ = 0.99, r = −0.14)</div>
+      <p>Internally studentised residuals <span class="mono">rᵢ</span> measure discordance. With the coverage threshold at the national median (92.4%) and the residual threshold at 0.25:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Class</th><th>Rule</th><th class="n">Districts</th></tr></thead>
+          <tbody>
+            <tr><td><strong style="color:var(--priority)">Priority / High-Risk</strong></td><td>Coverage ≥ 92.4% and rᵢ &gt; 0.25</td><td class="n">80</td></tr>
+            <tr><td>Best Performer</td><td>Coverage ≥ 92.4% and rᵢ ≤ 0.25</td><td class="n">267</td></tr>
+            <tr><td>Coverage Gap</td><td>Coverage &lt; 92.4% and risk above median</td><td class="n">206</td></tr>
+            <tr><td>Low Burden</td><td>Coverage &lt; 92.4% and risk at or below median</td><td class="n">140</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Six Low Burden districts have institutional births below 60%. They are flagged for civil-registration and verbal-autopsy audits, because low reported risk there may reflect unrecorded home deaths.</p>
+      <figure>
+        <div class="plate"><img src="report_assets/eda_ols_quadrants.png" alt="Scatter of institutional births against standardised maternal risk, coloured by the four classes, with the OLS line and median thresholds" loading="lazy" width="1300" height="866"></div>
+        <figcaption><b>Figure 1.</b> District maternal risk against institutional births. The shallow OLS line shows how weakly coverage predicts mortality; dashed lines mark the coverage and risk medians.</figcaption>
+      </figure>
+    </section>
+
+    <section id="stage2">
+      <h2><span class="num">5</span>Stage 2: classifier</h2>
+      <p>The 347 high-coverage districts (80 Priority, 267 Best Performer) were split 80/20 into training (277) and a stratified holdout (70, of which 16 Priority). Four tree ensembles were tuned with 50 Optuna trials each over 5-fold stratified cross-validation, with balanced class weights and an extra 1.25× weight on Priority districts. Models were ranked by <span class="mono">0.6 × F1(Priority) + 0.4 × macro F1</span> in cross-validation; the holdout was never used for selection.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th class="n">CV objective</th><th class="n">Holdout recall</th><th class="n">Holdout precision</th><th class="n">ROC-AUC</th><th class="n">PR-AUC</th></tr></thead>
+          <tbody>
+            <tr class="sel"><td>Random Forest (selected)</td><td class="n">0.591</td><td class="n">0.69</td><td class="n">0.55</td><td class="n">0.804</td><td class="n">0.566</td></tr>
+            <tr><td>XGBoost</td><td class="n">0.558</td><td class="n">0.75</td><td class="n">0.41</td><td class="n">0.782</td><td class="n">0.626</td></tr>
+            <tr><td>Gradient Boosting</td><td class="n">0.551</td><td class="n">0.56</td><td class="n">0.43</td><td class="n">0.788</td><td class="n">0.530</td></tr>
+            <tr><td>LightGBM</td><td class="n">0.549</td><td class="n">0.81</td><td class="n">0.52</td><td class="n">0.803</td><td class="n">0.612</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Holdout recall and precision at each model's default decision rule. Selected hyper-parameters: 200 trees, max depth 13, min 5 samples per leaf, log₂ features per split.</p>
+
+      <h3>Decision threshold</h3>
+      <p>For screening, missing a discordant district costs more than an unnecessary audit. The Priority cut-off was set to the highest probability whose out-of-fold recall reaches 0.82, using training folds only: <strong>0.348</strong>. On the holdout this catches <strong>14 of 16</strong> Priority districts (recall 0.875, precision 0.42, F2 0.72), with 19 false alarms among 54 Best Performers. Each holdout district moves recall by about 6 points, so the cross-validated figures in section 7 are the more reliable estimate.</p>
+
+      <h3>Calibration</h3>
+      <p>Displayed risk scores come from an isotonic-calibrated copy of the model (holdout Brier score 0.152 → 0.133). Isotonic calibration is a step function and tops out at 70%, so the top-ranked districts tie on the calibrated score; the ranking breaks ties with the uncalibrated probability.</p>
+    </section>
+
+    <section id="stage3">
+      <h2><span class="num">6</span>Stage 3: explanations</h2>
+      <p>TreeSHAP values are exact for tree ensembles and additive: a district's attributions sum to its model output (checked to within 10⁻³ on every run). Summing a domain's member indicators gives its contribution, and the national share is each domain's share of absolute attribution across the 80 Priority districts.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Domain</th><th class="n">Share</th><th>Scheme lever</th></tr></thead>
+          <tbody>
+            <tr><td>Emergency and facility quality</td><td class="n">27.1%</td><td>LaQshya; NHM FRU and blood-bank upgradation</td></tr>
+            <tr><td>Maternal health and nutrition</td><td class="n">27.1%</td><td>POSHAN Abhiyaan; Anaemia Mukt Bharat</td></tr>
+            <tr><td>Healthcare access and delivery</td><td class="n">19.6%</td><td>PMSMA; Janani Suraksha Yojana</td></tr>
+            <tr><td>Socioeconomic and education</td><td class="n">14.5%</td><td>Beti Bachao Beti Padhao; PM-JAY</td></tr>
+            <tr><td>Infrastructure and WASH</td><td class="n">11.8%</td><td>Jal Jeevan Mission; Swachh Bharat; IPHS norms</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Leading indicators and their direction</h3>
+      <p>The table shows the ten indicators with the largest mean attribution among Priority districts, and whether a higher value pushes a district toward or away from Priority (Spearman correlation between value and attribution).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Indicator</th><th>Higher value</th><th class="n">ρ</th><th>Reading</th></tr></thead>
+          <tbody>
+            <tr><td>Public-facility C-section rate (NFHS)</td><td><span class="pill down">lowers risk</span></td><td class="n">−0.84</td><td>Plausible: surgical access for obstructed labour and haemorrhage</td></tr>
+            <tr><td>C-section rate (HMIS)</td><td><span class="pill down">lowers risk</span></td><td class="n">−0.87</td><td>Plausible; Priority median 20.7% vs 30.7%</td></tr>
+            <tr><td>IFA for 100+ days</td><td><span class="pill odd">raises risk</span></td><td class="n">+0.44</td><td>Counter-intuitive; likely a regional proxy</td></tr>
+            <tr><td>High blood sugar in women</td><td><span class="pill down">lowers risk</span></td><td class="n">−0.48</td><td>Counter-intuitive; tracks wealthier, southern districts</td></tr>
+            <tr><td>Married before 18</td><td><span class="pill odd">lowers risk</span></td><td class="n">−0.56</td><td>Counter-intuitive; regional composition</td></tr>
+            <tr><td>Clean cooking fuel</td><td><span class="pill down">lowers risk</span></td><td class="n">−0.87</td><td>Plausible as a wealth marker</td></tr>
+            <tr><td>Tetanus protection</td><td><span class="pill odd">raises risk</span></td><td class="n">+0.79</td><td>Counter-intuitive; likely regional or reporting proxy</td></tr>
+            <tr><td>First-trimester ANC registration (HMIS)</td><td><span class="pill down">lowers risk</span></td><td class="n">−0.95</td><td>Plausible: earlier high-risk identification</td></tr>
+            <tr><td>Out-of-pocket delivery cost (log)</td><td><span class="pill odd">lowers risk</span></td><td class="n">−0.90</td><td>Counter-intuitive; higher cost marks richer, private-heavy districts</td></tr>
+            <tr><td>Severe anaemia, Hb &lt; 7 (HMIS)</td><td><span class="pill up">raises risk</span></td><td class="n">+0.52</td><td>Plausible: PPH tolerance and direct cause of death</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p><strong>Read the drivers as associations.</strong> Four indicators have clear clinical mechanisms (C-section access, early ANC registration, severe anaemia) or a wealth interpretation (clean fuel). Several others point the "wrong" way. These most likely stand in for regional differences, or for districts that report deaths more completely and so appear riskier. SHAP explains the model, not the causes of death.</p>
+      </div>
+      <p>Among the 80 Priority districts, the domain contributing most toward Priority is emergency/facility quality in 31, nutrition in 16, access in 15, WASH in 3 and socioeconomics in 1. In the remaining 14, no domain pushes toward Priority: the model does not recognise them, and their labels rest on mortality alone.</p>
+      <div class="fig-pair">
+        <figure>
+          <div class="plate"><img src="report_assets/shap_domain_shares.png" alt="Bar chart of national domain attribution shares" loading="lazy" width="1300" height="668"></div>
+          <figcaption><b>Figure 2.</b> National domain shares of Priority attribution.</figcaption>
+        </figure>
+        <figure>
+          <div class="plate"><img src="report_assets/eda_state_class1_distribution.png" alt="Bar chart of Priority district counts by state" loading="lazy" width="1300" height="817"></div>
+          <figcaption><b>Figure 3.</b> Priority / High-Risk districts by state.</figcaption>
+        </figure>
+      </div>
+      <figure>
+        <div class="plate"><img src="report_assets/shap_beeswarm_class1.png" alt="SHAP beeswarm plot of the top 20 indicators" loading="lazy" width="1300" height="1543"></div>
+        <figcaption><b>Figure 4.</b> TreeSHAP beeswarm for the Priority class (probability scale). Each dot is a district; colour is the indicator value (red high, blue low).</figcaption>
+      </figure>
+    </section>
+
+    <section id="validation">
+      <h2><span class="num">7</span>Validation</h2>
+      <h3>Do results transfer to unseen states?</h3>
+      <p>Random cross-validation lets districts from the same state appear in both training and test folds, which flatters performance when outcomes cluster by state. State-grouped cross-validation holds out whole states. Both use the selected model and settings, and each outer fold re-chooses its own threshold on an inner cross-validation of its training districts.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>5-fold CV, 347 districts</th><th class="n">Recall</th><th class="n">Precision</th><th class="n">F2</th><th class="n">ROC-AUC</th></tr></thead>
+          <tbody>
+            <tr><td>Random (stratified)</td><td class="n">0.84 ± 0.11</td><td class="n">0.42 ± 0.06</td><td class="n">0.69 ± 0.05</td><td class="n">0.78 ± 0.07</td></tr>
+            <tr><td>Whole states held out</td><td class="n">0.73 ± 0.19</td><td class="n">0.42 ± 0.09</td><td class="n">0.62 ± 0.10</td><td class="n">0.71 ± 0.08</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Performance falls by 0.07 AUC when states are held out but remains well above chance. Recall is uneven: every Priority district in Haryana (10/10) and Uttar Pradesh (5/5) is found, and 9 of 10 in Madhya Pradesh, but none in Sikkim (0/3) or Telangana (0/4) and 4 of 7 in Punjab. Rankings in states with few training districts deserve the most caution.</p>
+      <div class="fig-pair">
+        <figure>
+          <div class="plate"><img src="report_assets/validation_random_vs_state_grouped.png" alt="Grouped bar chart comparing random and state-grouped CV metrics" loading="lazy" width="1300" height="668"></div>
+          <figcaption><b>Figure 5.</b> Random vs state-grouped cross-validation (mean ± sd over folds).</figcaption>
+        </figure>
+        <figure>
+          <div class="plate"><img src="report_assets/validation_per_state_recall.png" alt="Bar chart of Priority recall for each held-out state" loading="lazy" width="1300" height="780"></div>
+          <figcaption><b>Figure 6.</b> Priority recall per held-out state (states with at least 3 Priority districts).</figcaption>
+        </figure>
+      </div>
+
+      <h3>How stable are the labels?</h3>
+      <p>Stage 1 was re-run under six alternative settings. Jaccard similarity compares each variant's Priority set with the baseline.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Variant</th><th class="n">Priority districts</th><th class="n">Jaccard</th><th class="n">Baseline Priority kept</th></tr></thead>
+          <tbody>
+            <tr><td>Baseline (mortality only, prior 3,000, threshold 0.25, median coverage)</td><td class="n">80</td><td class="n">1.00</td><td class="n">100%</td></tr>
+            <tr><td>Empirical-Bayes prior 1,000 live births</td><td class="n">79</td><td class="n">0.92</td><td class="n">95%</td></tr>
+            <tr><td>Empirical-Bayes prior 10,000 live births</td><td class="n">83</td><td class="n">0.96</td><td class="n">100%</td></tr>
+            <tr><td>Residual threshold 0</td><td class="n">117</td><td class="n">0.68</td><td class="n">100%</td></tr>
+            <tr><td>Residual threshold 0.5</td><td class="n">59</td><td class="n">0.74</td><td class="n">74%</td></tr>
+            <tr><td>Coverage threshold 80% (policy benchmark)</td><td class="n">163</td><td class="n">0.49</td><td class="n">100%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The list is robust to smoothing strength. Thresholds change its size, as expected, but the core persists: every baseline Priority district remains Priority under the looser residual and coverage thresholds.</p>
+
+      <h3>Consistency with published estimates</h3>
+      <p>Goli et al. (2022) published MMR for 640 districts from the same three HMIS years, scaled by a state calibration factor. Matching 603 of our modelled districts to their table:</p>
+      <ul>
+        <li>Within states, rankings agree almost exactly: median Spearman 0.97 (interquartile range 0.91–0.99, 26 states). Nationally the correlation is 0.82, lower only because of their state-level rescaling.</li>
+        <li>Our Priority districts sit at a median 85th percentile of their state's published MMR; only 1 of 73 falls in the bottom quartile. Best Performers sit at the 40th and Low Burden districts at the 27th.</li>
+      </ul>
+      <p>This confirms that our extraction and labels agree with published figures from the same source. It is not an independent clinical validation.</p>
+    </section>
+
+    <section id="history">
+      <h2><span class="num">8</span>How the design changed</h2>
+      <p>Validation exposed problems in earlier versions. Each change below was kept only because it improved generalisation to held-out states.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Version</th><th>Change</th><th class="n">AUC, states held out</th><th class="n">AUC, random CV</th><th>Problem found</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Blueprint: four classes, 0.7 mortality + 0.3 morbidity, HMIS 2019–20 only</td><td class="n">—</td><td class="n">0.83*</td><td>High postnatal-care coverage appeared as a top risk driver: coverage indicators were standing in for the excluded anchor</td></tr>
+            <tr><td>2</td><td>Binary Priority vs Best Performer; recall-targeted threshold</td><td class="n">0.54</td><td class="n">0.74</td><td>Near-chance on held-out states; 26 Tamil Nadu districts labelled Priority because of its morbidity reporting</td></tr>
+            <tr><td>3</td><td>Mortality-only risk score</td><td class="n">0.61</td><td class="n">0.74</td><td>Better, but single-year death counts were noisy (median 17 per district)</td></tr>
+            <tr class="sel"><td>4</td><td>Pool HMIS 2017–18 to 2019–20</td><td class="n">0.71</td><td class="n">0.78</td><td>Current version</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">* Four-class macro one-vs-rest AUC on the holdout; not comparable with the binary task.</p>
+    </section>
+
+    <section id="limitations">
+      <h2><span class="num">9</span>Limitations</h2>
+      <ul>
+        <li><strong>Facility-reported deaths.</strong> HMIS records deaths that reach the reporting system. Districts that report more completely can look riskier, and some counter-intuitive drivers probably reflect this.</li>
+        <li><strong>Associations, not causes.</strong> SHAP explains the classifier. Drivers need confirmation through maternal death surveillance and response (MDSR) and LaQshya facility audits.</li>
+        <li><strong>Moderate precision.</strong> About 6 in 10 flagged districts are false alarms at the screening threshold.</li>
+        <li><strong>In-sample scores.</strong> Risk scores for districts used in training are in-sample, so their ranking is optimistic. Cross-fitted scores would remove this.</li>
+        <li><strong>Mismatched windows.</strong> HMIS covers April 2017 to March 2020; NFHS-5 fieldwork ran 2019–21. Determinants are measured slightly after outcomes.</li>
+        <li><strong>Missing indicators.</strong> JSY assistance, caste and rural composition, FRU and blood-storage-unit counts are not available at district level in these sources.</li>
+        <li><strong>Coverage of the frame.</strong> 13 districts are excluded (8 unmatched, 5 with fewer than 500 live births), and 70 districts created after the 2011 boundaries have no polygon on the map.</li>
+        <li><strong>Small evaluation sets.</strong> The holdout has 16 Priority districts and some states have only 3 or 4, so per-state figures are uncertain.</li>
+      </ul>
+    </section>
+
+    <section id="use">
+      <h2><span class="num">10</span>Using the results</h2>
+      <ul>
+        <li>Use the Priority list to <strong>target audits</strong>: MDSR review of recent deaths, LaQshya assessment of labour rooms, C-section and blood availability at first referral units.</li>
+        <li>Prioritise districts where a plausible driver leads the explanation, such as a low C-section rate, late ANC registration or high severe anaemia.</li>
+        <li>Treat the six low-coverage, low-reported-risk districts as a <strong>verification queue</strong> for CRS and verbal-autopsy audits.</li>
+        <li>Use the what-if simulator to explore model sensitivity, not to estimate the impact of a programme.</li>
+        <li>Do not use the scores to allocate funds or rank districts in states with few training examples.</li>
+      </ul>
+      <h3>Next steps</h3>
+      <ol>
+        <li>Cross-fitted (out-of-fold) risk scores for all districts.</li>
+        <li>State fixed effects in Stage 1, to separate within-state discordance from between-state reporting differences.</li>
+        <li>HMIS 2020–21 onward, once accessible in a compatible format, and a completeness adjustment using CRS death registration.</li>
+        <li>Field validation of the top-ranked districts against state MDSR reports.</li>
+      </ol>
+    </section>
+
+    <section id="repro">
+      <h2><span class="num">11</span>Reproducibility</h2>
+      <p>All results come from one command, <code>python -m src.run_pipeline</code> (about 20 minutes), with configuration in <code>config/config.yaml</code>. Random seed 42 throughout.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Output</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td><code>data/processed/priority_action_table.csv</code></td><td>Ranked districts, risk score, residual, top 5 drivers, scheme mapping, audit flag</td></tr>
+            <tr><td><code>models/benchmark_metrics.json</code></td><td>CV, out-of-fold and holdout metrics for all models; threshold; calibration</td></tr>
+            <tr><td><code>models/validation_report.json</code></td><td>Random vs state-grouped CV, per-state recall, label sensitivity</td></tr>
+            <tr><td><code>data/processed/match_audit.csv</code>, <code>feature_selection_audit.csv</code></td><td>Every matching and feature decision</td></tr>
+            <tr><td><code>reports/external_mmr_comparison.csv</code></td><td>District-level comparison with Goli et al. (2022)</td></tr>
+            <tr><td><code>notebooks/01–04</code></td><td>Executed walkthroughs of each stage</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The interactive dashboard (<code>streamlit run app/streamlit_app.py</code>) has the national map, district scorecards with SHAP waterfalls, the what-if simulator and CSV, Excel and PDF exports. 24 automated tests cover leakage, SHAP additivity, matching, imputation, thresholding and an end-to-end synthetic run.</p>
+    </section>
+
+    <section id="appendix">
+      <h2><span class="num">12</span>Appendix: top 20 Priority districts</h2>
+      <p>Ranked by calibrated risk score, ties broken by the uncalibrated probability. Residual rᵢ is the studentised Stage 1 residual.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th class="n">#</th><th>District</th><th>State</th><th class="n">Risk</th><th class="n">rᵢ</th><th class="n">Inst. births</th><th>Leading driver</th><th>Primary domain</th></tr></thead>
+          <tbody>
+            <tr><td class="n">1</td><td>Raisen</td><td>Madhya Pradesh</td><td class="n">70.0</td><td class="n">0.76</td><td class="n">96.0</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">2</td><td>Bhind</td><td>Madhya Pradesh</td><td class="n">70.0</td><td class="n">0.26</td><td class="n">93.5</td><td>C-section rate (HMIS)</td><td>Access</td></tr>
+            <tr><td class="n">3</td><td>Rajsamand</td><td>Rajasthan</td><td class="n">70.0</td><td class="n">1.11</td><td class="n">95.1</td><td>C-section rate (HMIS)</td><td>Access</td></tr>
+            <tr><td class="n">4</td><td>Uttar Bastar Kanker</td><td>Chhattisgarh</td><td class="n">70.0</td><td class="n">1.09</td><td class="n">94.1</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">5</td><td>Dibrugarh</td><td>Assam</td><td class="n">70.0</td><td class="n">3.11</td><td class="n">93.1</td><td>Public C-section rate</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">6</td><td>Rajnandgaon</td><td>Chhattisgarh</td><td class="n">70.0</td><td class="n">0.52</td><td class="n">95.5</td><td>Public C-section rate</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">7</td><td>Udaipur</td><td>Rajasthan</td><td class="n">70.0</td><td class="n">1.13</td><td class="n">96.1</td><td>Public C-section rate</td><td>Access</td></tr>
+            <tr><td class="n">8</td><td>Neemuch</td><td>Madhya Pradesh</td><td class="n">70.0</td><td class="n">0.64</td><td class="n">97.5</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">9</td><td>Balod</td><td>Chhattisgarh</td><td class="n">70.0</td><td class="n">0.61</td><td class="n">97.4</td><td>Public C-section rate</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">10</td><td>Fatehabad</td><td>Haryana</td><td class="n">70.0</td><td class="n">0.40</td><td class="n">97.9</td><td>Public C-section rate</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">11</td><td>Khargone (West Nimar)</td><td>Madhya Pradesh</td><td class="n">70.0</td><td class="n">0.44</td><td class="n">92.8</td><td>Out-of-pocket cost</td><td>Access</td></tr>
+            <tr><td class="n">12</td><td>Mau</td><td>Uttar Pradesh</td><td class="n">70.0</td><td class="n">1.54</td><td class="n">94.7</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">13</td><td>Balaghat</td><td>Madhya Pradesh</td><td class="n">70.0</td><td class="n">0.85</td><td class="n">95.1</td><td>Out-of-pocket cost</td><td>WASH</td></tr>
+            <tr><td class="n">14</td><td>Kalahandi</td><td>Odisha</td><td class="n">70.0</td><td class="n">1.07</td><td class="n">92.8</td><td>Public C-section rate</td><td>Nutrition</td></tr>
+            <tr><td class="n">15</td><td>Jabalpur</td><td>Madhya Pradesh</td><td class="n">70.0</td><td class="n">3.91</td><td class="n">94.7</td><td>Public C-section rate</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">16</td><td>Banswara</td><td>Rajasthan</td><td class="n">67.4</td><td class="n">0.67</td><td class="n">97.7</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">17</td><td>Dhaulpur</td><td>Rajasthan</td><td class="n">67.4</td><td class="n">0.34</td><td class="n">94.4</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">18</td><td>Sambalpur</td><td>Odisha</td><td class="n">67.4</td><td class="n">2.21</td><td class="n">99.5</td><td>High blood sugar</td><td>Nutrition</td></tr>
+            <tr><td class="n">19</td><td>Pratapgarh</td><td>Rajasthan</td><td class="n">67.4</td><td class="n">0.66</td><td class="n">96.4</td><td>C-section rate (HMIS)</td><td>Emergency/facility</td></tr>
+            <tr><td class="n">20</td><td>Dungarpur</td><td>Rajasthan</td><td class="n">67.1</td><td class="n">0.44</td><td class="n">94.1</td><td>C-section rate (HMIS)</td><td>Access</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="caption">Risk = calibrated probability of the Priority class (%). The full ranked list for all 693 districts, with five drivers each, is in <code>priority_action_table.csv</code> and the dashboard.</p>
+    </section>
+
+    <footer>
+      <p>Sources: NFHS-5 District Fact Sheets (MoHFW/IIPS); HMIS Standard Reports, C2 Data Itemwise Monthly (MoHFW, hmis.mohfw.gov.in); Goli S, Puri P, Salve PS, Pallikadavath S, James KS (2022), Estimates and correlates of district-level maternal mortality ratio in India, <em>PLOS Global Public Health</em> 2(7): e0000441.</p>
+      <p>Research prototype. Classifications are statistical, derived from facility-reported data, and must be validated with MDSR, CRS/verbal-autopsy and facility audits before any resource decision.</p>
+    </footer>
+  </main>
+</div>

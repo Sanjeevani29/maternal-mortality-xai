@@ -17,7 +17,8 @@ hmis:
   standard_reports_url: "https://hmis.mohfw.gov.in/#!/standardReports"
   report_path: "C2 Data Itemwise Monthly (up to sub district) > All States and Districts Across Months"
   annual_files:
+    "2017_18": "data/raw/hmis_2017_18_official.zip"
+    "2018_19": "data/raw/hmis_2018_19_official.zip"
     "2019_20": "data/raw/hmis_2019_20_official.zip"
-    "2020_21": "data/raw/hmis_2020_21_official.zip"
-    "2021_22": "data/raw/hmis_2021_22_official.zip"
-  limitation: "The unauthenticated national archive listed 2019-20 but not the later two FY files at retrieval time. The pipeline pools every archive present (minimum set by real_data.minimum_hmis_years) and records the pooled window in data/processed/data_provenance.json."
+  download_url_pattern: "https://hmis.mohfw.gov.in/downloadfiles?filepath=/Standard%20Reports/5~C2.%20Data%20Itemwise%20Monthly%20%28up%20to%20sub%20district%29/3.%20All%20States%20and%20Districts%20Across%20Months/<YYYY-YYYY>.zip"
+  limitation: "Public archives in this format exist up to 2019-20; 2020-21 onward require a portal login. The pipeline pools the three pre-COVID years 2017-18 to 2019-20 as counts, aligned on normalised district names, and records years per district (hmis_years_pooled)."

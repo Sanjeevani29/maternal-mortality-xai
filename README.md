@@ -14,7 +14,7 @@ LaQshya, PMSMA, JSY and POSHAN Abhiyaan levers.
 | --- | --- |
 | 1. Ingestion | `src/data/nfhs_extract.py` (NFHS-5 district factsheets, long → wide, 707 districts); `src/data/hmis_extract.py` (streaming parser for the official HMIS C2 item-wise archives, ~2.5 GB of HTML per year, counts pooled across available years) |
 | 2. Harmonisation & features | `src/data/merge_nfhs_hmis.py` (within-state aliases → exact → `rapidfuzz` ≥ 90 auto / 75–89 review, HMIS split-district aggregation, full audit); `src/data/preprocess_impute.py` (HMIS-derived rates, C-section deficit, log OOP, missingness / anchor-proxy / VIF selection, state → zone → national KNN imputation fitted only on training folds) |
-| 3. Stage 1 target | `src/target/ols_priority_classifier.py` — EB-smoothed facility MMR + severe-morbidity composite, OLS on institutional births, internally studentized residuals, 4 quadrants, anti-leakage firewall |
+| 3. Stage 1 target | `src/target/ols_priority_classifier.py` — EB-smoothed facility MMR (mortality-only by default; morbidity weight configurable), OLS on institutional births, internally studentized residuals, 4 quadrants, anti-leakage firewall |
 | 4. Stage 2 model | `src/models/train_evaluate.py` — **discordance task**: Priority vs Best Performer among high-access districts (configurable back to four classes); 80/20 stratified holdout, 5-fold stratified CV, balanced weights × 1.25 for class 1, Optuna (50 trials) for RF, GradientBoosting, XGBoost, LightGBM; class-1 decision threshold tuned on out-of-fold predictions to reach recall ≥ 0.82; isotonic calibration |
 | 4. Stage 3 XAI | `src/explain/shap_profiler.py` — exact TreeSHAP with additivity check, five-domain roll-ups and national domain shares, top-5 local drivers → scheme mapping, master priority table |
 | 5. Dashboard | `app/streamlit_app.py` — national choropleth & OLS quadrant plot, district scorecard (gauge, SHAP waterfall, deprivation radar vs state and best performers, policy card), what-if simulator with live TreeSHAP, priority table with CSV/Excel/PDF briefs, methods & audit tab |
@@ -42,9 +42,9 @@ pytest -q
 See `config/data_sources.yaml`. Place in `data/raw/`:
 
 - `nfhs5_districts_source.csv` — NFHS-5 district factsheets (long format with `State, District, Indicator, NFHS 5`).
-- `hmis_2019_20_official.zip` (and, when obtainable, `hmis_2020_21_official.zip`, `hmis_2021_22_official.zip`) — HMIS
-  *C2 Data Itemwise Monthly – All States and Districts Across Months*. The pipeline pools whichever years are present and
-  records the window in `data/processed/data_provenance.json`.
+- `hmis_2017_18_official.zip`, `hmis_2018_19_official.zip`, `hmis_2019_20_official.zip` — HMIS *C2 Data Itemwise
+  Monthly – All States and Districts Across Months*, public on the HMIS portal (URL pattern in `config/data_sources.yaml`).
+  Counts are pooled across the three pre-COVID years; 2020-21 onward are login-only in this format.
 - `india_districts_source.geojson` — district boundaries (simplified to ~1.1 MB at build time; `mapshaper` is used if it is
   on `PATH`, otherwise a built-in Douglas-Peucker simplifier).
 
@@ -55,8 +55,8 @@ See `config/data_sources.yaml`. Place in `data/raw/`:
   (e.g. skilled birth attendance) are dropped as proxies. All decisions are in `data/processed/feature_selection_audit.csv`.
 - **Morbidity component.** HMIS publishes a single "obstetric complications attended" total, not separate PPH/eclampsia/
   sepsis/ruptured-uterus counts, so the morbidity rate uses that total.
-- **HMIS window.** Only the 2019-20 archive was obtainable from the unauthenticated national HMIS portal; the 2020-21 and
-  2021-22 archives are used automatically once placed in `data/raw/`.
+- **HMIS window.** Maternal deaths and live births are pooled over 2017-18 to 2019-20 (median 58 deaths per modelled
+  district), which overlaps the start of NFHS-5 fieldwork (2019-21) and avoids the COVID-disrupted 2020-21 year.
 - **Indicators not in district factsheets.** JSY financial assistance, SC/ST and rural population share, male literacy
   (gender gap), FRU and blood-storage-unit counts are not published at district level in the sources used. HMIS proxies
   are used where they exist (blood units issued per 1,000 deliveries, JSSK free transport, severe anaemia Hb < 7).
@@ -77,10 +77,14 @@ See `config/data_sources.yaml`. Place in `data/raw/`:
   are reported both at argmax and at this threshold. Expect lower precision: this is a screening list for audits.
 - **Validation (`python -m src.models.validate`, also run by the pipeline).** Compares random vs **state-grouped**
   5-fold CV with the selected model (thresholds re-chosen inside each training fold) and re-runs Stage 1 under six
-  alternative settings. Current finding: performance largely does **not** transfer to held-out states (ROC-AUC ≈ 0.5 vs
-  0.74 under random CV). A major cause is the HMIS morbidity component: states define "obstetric complications attended"
-  very differently (Tamil Nadu median 56% of deliveries vs 5.4% nationally), so the composite score partly measures
-  reporting practice. See `models/validation_report.json` and the dashboard's Methods tab.
+  alternative settings. Findings that shaped the defaults: (1) the HMIS morbidity item is not comparable across states
+  (Tamil Nadu median 56% of deliveries vs 5.4% nationally), so the target is **mortality-only**; (2) pooling three HMIS
+  years cut label noise. Held-out-state ROC-AUC rose 0.54 → 0.61 → **0.71** (random CV 0.78). See
+  `models/validation_report.json`.
+- **External consistency check.** Our pooled facility MMR reproduces the published district estimates of Goli et al.
+  (2022, *PLOS Global Public Health*, S3 Table; same HMIS window, state-calibrated to SRS): within-state Spearman median
+  0.97 over 26 states; Priority districts sit at a median 85th within-state percentile of the published MMR
+  (`reports/external_mmr_comparison.csv`). This verifies the extraction, not the clinical validity of the labels.
 - **GradientBoosting.** sklearn's `GradientBoostingClassifier` is TreeSHAP-compatible only for binary problems; in
   four-class mode it is benchmarked but cannot be selected.
 - **Associative, not causal.** What-if results are model sensitivity, not programme impact estimates.
@@ -97,6 +101,8 @@ See `config/data_sources.yaml`. Place in `data/raw/`:
 | `data/processed/india_districts_simplified.geojson` | Simplified boundaries keyed by `state|district` |
 | `models/benchmark_metrics.json` | CV / out-of-fold / holdout metrics for all four models, calibration, best params |
 | `reports/figures/*.png` | EDA and SHAP publication figures |
+| `reports/methodology_report.html` | Full methodology and results write-up (figures in `reports/report_assets/`) |
+| `reports/external_mmr_comparison.csv` | District comparison with published HMIS-based MMR (Goli et al. 2022) |
 
 ## Deployment (Hugging Face Spaces)
 

@@ -36,7 +36,7 @@ def prepare_real_sources(config: dict[str, Any], rebuild: bool) -> dict[str, Any
         raise FileNotFoundError(f"Need at least {config['real_data']['minimum_hmis_years']} HMIS archive(s).")
     if rebuild or not hmis_out.exists():
         print(f"Extracting HMIS from {len(present)} archive(s) (several minutes)...", flush=True)
-        pool_hmis_annual_files(present, hmis_out, progress=True)
+        pool_hmis_annual_files(present, hmis_out, progress=True, aliases_path=PROJECT_ROOT / config["matching"]["aliases_path"])
     nfhs = pd.read_csv(nfhs_out)
     if len(nfhs) < int(config["real_data"]["minimum_nfhs_districts"]):
         raise ValueError(f"NFHS extract has {len(nfhs)} districts; expected >= {config['real_data']['minimum_nfhs_districts']}.")
@@ -45,10 +45,12 @@ def prepare_real_sources(config: dict[str, Any], rebuild: bool) -> dict[str, Any
         "hmis_archives_used": [path.name for path in present],
         "hmis_archives_missing": [path.name for path in hmis_files if not path.exists()],
         "hmis_window_note": (
-            "Pooled HMIS window is shorter than the planned 2019-22 window; the missing financial-year "
-            "archives were not available from the unauthenticated national HMIS archive."
+            f"Pooled HMIS window covers {len(present)} of {len(hmis_files)} configured financial years; the "
+            "missing archives were not found in data/raw/."
             if len(present) < len(hmis_files)
-            else "All planned HMIS financial years pooled."
+            else f"HMIS counts pooled over {len(present)} financial years: "
+            + ", ".join(path.stem.replace("hmis_", "").replace("_official", "") for path in present)
+            + "."
         ),
     }
 

@@ -67,6 +67,12 @@ def _validation_section(validation: dict) -> None:
             "across states. Do not use it to rank districts in a state it was not trained on, and read SHAP drivers as "
             "within-sample associations."
         )
+    elif grouped_auc < 0.7:
+        st.warning(
+            f"Held-out-state ROC-AUC is {grouped_auc:.2f} (vs {grouped_auc + gap:.2f} under random CV). Rankings transfer "
+            "only moderately across states: use the Priority list as an audit screening aid, and be most cautious in states "
+            "with few training districts."
+        )
     left, right = st.columns(2)
     with left:
         states = pd.DataFrame(validation.get("per_state_recall", []))

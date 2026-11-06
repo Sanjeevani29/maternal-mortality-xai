@@ -214,6 +214,8 @@ def generate_shap_artifacts(
             "predicted_label": prediction_label(model, predicted_class[row_index]),
             "in_training_domain": in_training_domain(model, row["priority_class"]),
             "priority_risk_score": round(float(risk_probability[row_index]) * 100, 1),
+            # Isotonic calibration is a step function, so tied risk scores are ordered by the raw probability.
+            "raw_class_1_probability": round(float(raw_probability[row_index]), 4),
             "institutional_births_pct": care,
             "studentized_residual": round(float(row["studentized_residual"]), 3),
             "primary_domain_bottleneck": primary,
@@ -232,7 +234,9 @@ def generate_shap_artifacts(
             )
             output[f"top_{rank}_scheme"] = schemes[feature_domain[feature]]["scheme"]
         rows.append(output)
-    actions = pd.DataFrame(rows).sort_values(["priority_class", "priority_risk_score"], ascending=[True, False])
+    actions = pd.DataFrame(rows).sort_values(
+        ["priority_class", "priority_risk_score", "raw_class_1_probability"], ascending=[True, False, False]
+    )
     actions.insert(0, "rank", np.arange(1, len(actions) + 1))
     priority_table_path.parent.mkdir(parents=True, exist_ok=True)
     actions.to_csv(priority_table_path, index=False)

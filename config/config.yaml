@@ -4,12 +4,12 @@ project:
 
 paths:
   nfhs_source: data/raw/nfhs5_districts_source.csv
+  hmis_2017_18: data/raw/hmis_2017_18_official.zip
+  hmis_2018_19: data/raw/hmis_2018_19_official.zip
   hmis_2019_20: data/raw/hmis_2019_20_official.zip
-  hmis_2020_21: data/raw/hmis_2020_21_official.zip
-  hmis_2021_22: data/raw/hmis_2021_22_official.zip
   district_geojson: data/raw/india_districts_source.geojson
   nfhs_raw: data/interim/nfhs5_districts_canonical.csv
-  hmis_raw: data/interim/hmis_maternal_2019_21.csv
+  hmis_raw: data/interim/hmis_maternal_pooled.csv
   provenance: data/processed/data_provenance.json
   geojson_simplified: data/processed/india_districts_simplified.geojson
   geo_match_audit: data/processed/geo_match_audit.csv
@@ -148,7 +148,9 @@ zones:
   south: [Andhra Pradesh, Telangana, Karnataka, Kerala, Tamil Nadu, Puducherry, Lakshadweep, Andaman & Nicobar Island]
 
 real_data:
-  hmis_years: ["2019_20", "2020_21", "2021_22"]
+  # Three pre-COVID financial years in the public "All States and Districts Across Months" format.
+  # 2020-21 onward are login-only in that format on the HMIS portal (and 2020-21 is COVID-disrupted).
+  hmis_years: ["2017_18", "2018_19", "2019_20"]
   minimum_hmis_years: 1
   minimum_nfhs_districts: 700
   minimum_matched_share: 0.85

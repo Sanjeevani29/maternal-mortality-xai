@@ -171,11 +171,14 @@ def extract_hmis_annual(zip_path: Path, progress: bool = False) -> pd.DataFrame:
     return output
 
 
-def pool_hmis_annual_files(yearly_files: list[Path], output_path: Path, progress: bool = False) -> pd.DataFrame:
+def pool_hmis_annual_files(
+    yearly_files: list[Path], output_path: Path, progress: bool = False, aliases_path: Path | None = None
+) -> pd.DataFrame:
     """Pool financial-year extracts as summed counts (never averaged rates).
 
-    Only the archives that exist on disk are pooled; the provenance column records how many years
-    contributed so downstream reports can disclose a shorter-than-planned window.
+    Only the archives that exist on disk are pooled; ``hmis_years_pooled`` records how many years each
+    district contributed. Years are aligned on normalised state/district names (plus the curated
+    aliases), so spelling changes between years do not split a district; the most recent spelling is kept.
     """
     present = [path for path in yearly_files if path.exists()]
     if not present:
@@ -187,8 +190,22 @@ def pool_hmis_annual_files(yearly_files: list[Path], output_path: Path, progress
         annual.append(current)
     combined = pd.concat(annual, ignore_index=True)
     count_columns = [column for column in combined if column.startswith("hmis_")]
-    pooled = combined.groupby(["state", "district"], as_index=False)[count_columns].sum(min_count=1)
-    pooled["hmis_years_pooled"] = combined.groupby(["state", "district"])["source_year"].nunique().to_numpy()
+    if aliases_path is not None and aliases_path.exists():
+        from src.data.merge_nfhs_hmis import load_aliases, normalise_district, normalise_state
+
+        aliases = load_aliases(aliases_path)
+        combined["_state_key"] = combined["state"].map(lambda value: normalise_state(value, aliases))
+        combined["_district_key"] = combined["district"].map(lambda value: normalise_district(value, aliases))
+    else:
+        combined["_state_key"] = combined["state"].str.strip().str.lower()
+        combined["_district_key"] = combined["district"].str.strip().str.lower()
+    keys = ["_state_key", "_district_key"]
+    pooled = combined.groupby(keys, as_index=False)[count_columns].sum(min_count=1)
+    latest = combined.sort_values("source_year").groupby(keys, as_index=False)[["state", "district"]].last()
+    years = combined.groupby(keys, as_index=False)["source_year"].nunique().rename(columns={"source_year": "hmis_years_pooled"})
+    pooled = latest.merge(pooled, on=keys).merge(years, on=keys).drop(columns=keys)
+    if pooled.duplicated(["state", "district"]).any():
+        raise ValueError("Pooled HMIS table has duplicate state/district display names.")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     pooled.to_csv(output_path, index=False)
     output_path.with_suffix(".years.json").write_text(
