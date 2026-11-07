@@ -12,7 +12,7 @@ optuna==3.6.1
 shap==0.46.0
 pyarrow==17.0.0
 plotly==5.23.0
-matplotlib==3.9.1
+matplotlib==3.9.2
 seaborn==0.13.2
 openpyxl==3.1.5
 fpdf2==2.7.9

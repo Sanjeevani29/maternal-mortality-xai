@@ -2,8 +2,8 @@
 
 Usage (after running the pipeline locally):
     pip install huggingface_hub
-    export HF_TOKEN=hf_...            # a write token for your account
-    python scripts/deploy_hf.py --space <username>/maternal-mortality-xai
+    huggingface-cli login             # stores a write token locally (or: export HF_TOKEN=hf_...)
+    python scripts/deploy_hf.py --space <username>/maternal-mortality-xai [--private]
 
 Raw and interim source data are never uploaded; only the derived district-level artefacts
 the dashboard needs. Review data-governance requirements before publishing a public Space.
@@ -44,12 +44,13 @@ def main() -> None:
     missing = [path for path in REQUIRED if not (ROOT / path).exists()]
     if missing:
         sys.exit(f"Run the pipeline first; missing artefacts: {missing}")
-    token = os.environ.get("HF_TOKEN")
-    if not token:
-        sys.exit("Set HF_TOKEN to a Hugging Face write token.")
-    from huggingface_hub import HfApi
+    from huggingface_hub import HfApi, get_token
 
+    token = os.environ.get("HF_TOKEN") or get_token()
+    if not token:
+        sys.exit("No Hugging Face token found. Run `huggingface-cli login` or set HF_TOKEN.")
     api = HfApi(token=token)
+    print(f"Authenticated as {api.whoami()['name']}")
     api.create_repo(args.space, repo_type="space", space_sdk="docker", private=args.private, exist_ok=True)
     api.upload_file(
         path_or_fileobj=str(ROOT / "deploy" / "hf_space_README.md"),

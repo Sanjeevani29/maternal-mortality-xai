@@ -1,0 +1,17 @@
+# Runtime dependencies for the Streamlit Community Cloud deployment (dashboard only).
+# The full research pipeline uses ../requirements.txt.
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.1
+joblib==1.4.2
+PyYAML==6.0.2
+rapidfuzz==3.9.6
+xgboost==2.1.1
+lightgbm==4.5.0
+shap==0.46.0
+matplotlib==3.9.2
+pyarrow==17.0.0
+plotly==5.23.0
+openpyxl==3.1.5
+fpdf2==2.7.9
+streamlit==1.38.0

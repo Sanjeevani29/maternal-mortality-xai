@@ -104,18 +104,19 @@ See `config/data_sources.yaml`. Place in `data/raw/`:
 | `reports/methodology_report.html` | Full methodology and results write-up (figures in `reports/report_assets/`) |
 | `reports/external_mmr_comparison.csv` | District comparison with published HMIS-based MMR (Goli et al. 2022) |
 
-## Deployment (Hugging Face Spaces)
+## Deployment (Streamlit Community Cloud)
 
-Generated artefacts are deliberately not committed to Git, so deployment uploads them from a local build:
+The dashboard reads only pre-computed artefacts, which are committed (raw and interim source data are not).
 
-```bash
-python -m src.run_pipeline
-pip install huggingface_hub
-HF_TOKEN=hf_xxx python scripts/deploy_hf.py --space <username>/maternal-mortality-xai
-```
+1. Run `python -m src.run_pipeline`, then commit and push the refreshed files under `data/processed/`, `models/` and
+   `reports/figures/`.
+2. At [share.streamlit.io](https://share.streamlit.io), choose **Create app → Deploy a public app from GitHub**: repository
+   `mrsparkle-70/maternal-mortality-xai`, branch `main`, main file `app/streamlit_app.py`, and under *Advanced settings*
+   Python **3.11**.
+3. Dependencies come from `app/requirements.txt` (dashboard only) and `packages.txt`; the app redeploys on every push.
 
-The Space uses the Docker SDK (`Dockerfile`, port 7860). `.github/workflows/ci.yml` runs the test suite (including an
-end-to-end synthetic pipeline run) on every push.
+A `Dockerfile` and `scripts/deploy_hf.py` are also provided for container hosts or a Hugging Face PRO account (Docker
+Spaces on the free CPU tier require PRO). `.github/workflows/ci.yml` runs the test suite on every push.
 
 ## Repository layout
 

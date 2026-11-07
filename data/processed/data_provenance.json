@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-11-06T19:48:16+00:00",
+  "mode": "real data",
+  "nfhs_source": "data/raw/nfhs5_districts_source.csv",
+  "hmis_archives_used": [
+    "hmis_2017_18_official.zip",
+    "hmis_2018_19_official.zip",
+    "hmis_2019_20_official.zip"
+  ],
+  "hmis_archives_missing": [],
+  "hmis_window_note": "HMIS counts pooled over 3 financial years: 2017_18, 2018_19, 2019_20.",
+  "validation": {
+    "random_stratified": {
+      "class_1_recall": 0.8375,
+      "class_1_precision": 0.40853658536585363,
+      "class_1_f2": 0.6921487603305785,
+      "class_1_roc_auc": 0.7722378277153559
+    },
+    "state_grouped": {
+      "class_1_recall": 0.775,
+      "class_1_precision": 0.38271604938271603,
+      "class_1_f2": 0.6431535269709544,
+      "class_1_roc_auc": 0.7222846441947566
+    }
+  },
+  "geojson": {
+    "method": "python douglas-peucker tolerance=0.01 deg, 4-decimal rounding",
+    "source_mb": 27.99,
+    "output_mb": 1.15,
+    "polygons_mapped": 636,
+    "districts_without_polygon": 70
+  },
+  "districts_total": 706,
+  "districts_hmis_matched": 698,
+  "districts_modelled": 693,
+  "minimum_live_births": 500.0,
+  "features_candidate": 34,
+  "features_selected": [
+    "public_c_section_pct",
+    "public_c_section_deficit",
+    "hmis_c_section_rate_pct",
+    "hmis_blood_units_per_1000_deliveries",
+    "hmis_jssk_transport_pct",
+    "hmis_early_discharge_pct",
+    "pregnant_anaemia_pct",
+    "all_women_anaemia_pct",
+    "hmis_severe_anaemia_pct",
+    "low_bmi_pct",
+    "teenage_pregnancy_pct",
+    "married_before_18_pct",
+    "ifa_100_days_pct",
+    "hmis_ifa_180_pct",
+    "female_elevated_bp_pct",
+    "female_high_blood_sugar_pct",
+    "anc_4_plus_pct",
+    "first_trimester_anc_pct",
+    "hmis_first_trimester_reg_pct",
+    "postnatal_48h_pct",
+    "oop_expenditure_log",
+    "tetanus_protected_pct",
+    "mcp_card_pct",
+    "women_10y_schooling_pct",
+    "female_ever_schooled_pct",
+    "health_insurance_pct",
+    "death_registration_pct",
+    "electricity_pct",
+    "improved_water_pct",
+    "improved_sanitation_pct",
+    "clean_cooking_fuel_pct"
+  ],
+  "class_distribution": {
+    "1": 80,
+    "3": 267
+  },
+  "stage1": {
+    "intercept": 1.0197464066716309,
+    "coefficient": -0.011483556062572566,
+    "residual_sigma": 0.991917812784051,
+    "care_threshold": 92.4,
+    "risk_median": -0.21836842188847755,
+    "residual_threshold": 0.25
+  },
+  "selected_model": "random_forest",
+  "holdout_class_1_recall": 0.6875,
+  "holdout_macro_f1": 0.7382478632478633,
+  "task": "discordance_binary",
+  "decision_threshold": 0.3477,
+  "holdout_class_1_recall_at_threshold": 0.875,
+  "holdout_class_1_precision_at_threshold": 0.42424242424242425,
+  "figures": [
+    "reports/figures/eda_ols_quadrants.png",
+    "reports/figures/eda_state_class1_distribution.png",
+    "reports/figures/eda_domain_correlation_heatmap.png",
+    "reports/figures/eda_domain_violins_class1_vs_class3.png",
+    "reports/figures/eda_wash_vs_residual.png",
+    "reports/figures/shap_beeswarm_class1.png",
+    "reports/figures/shap_domain_shares.png",
+    "reports/figures/validation_random_vs_state_grouped.png",
+    "reports/figures/validation_per_state_recall.png",
+    "reports/figures/validation_label_sensitivity.png"
+  ],
+  "runtime_seconds": 1296.9
+}

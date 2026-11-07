@@ -10,10 +10,24 @@ data/raw/*
 data/interim/
 data/demo/
 data/processed/*
-models/*.joblib
-models/*.json
+models/*
 reports/figures/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !models/.gitkeep
 !reports/figures/.gitkeep
+
+# Derived, district-level artefacts the deployed dashboard reads (built from public NFHS-5/HMIS data).
+# Raw and interim source files above stay untracked.
+!data/processed/master_district_dataset.csv
+!data/processed/priority_action_table.csv
+!data/processed/shap_matrix_class1.parquet
+!data/processed/domain_shares.csv
+!data/processed/data_provenance.json
+!data/processed/feature_selection_audit.csv
+!data/processed/match_audit.csv
+!data/processed/india_districts_simplified.geojson
+!models/*.joblib
+!models/benchmark_metrics.json
+!models/validation_report.json
+!reports/figures/*.png

@@ -1,0 +1,312 @@
+{
+  "task": "discordance_binary",
+  "model": "random_forest",
+  "n_districts": 347,
+  "n_states": 34,
+  "cv": {
+    "random_stratified": {
+      "pooled": {
+        "class_1_recall": 0.8375,
+        "class_1_precision": 0.40853658536585363,
+        "class_1_f2": 0.6921487603305785,
+        "class_1_roc_auc": 0.7722378277153559
+      },
+      "fold_mean": {
+        "class_1_recall": 0.8375,
+        "class_1_precision": 0.417187047797146,
+        "class_1_f2": 0.6907165359723315,
+        "class_1_roc_auc": 0.7811102375960867
+      },
+      "fold_std": {
+        "class_1_recall": 0.10458250331675945,
+        "class_1_precision": 0.06088785014700062,
+        "class_1_f2": 0.04621784676793037,
+        "class_1_roc_auc": 0.07184868101558722
+      },
+      "folds": [
+        {
+          "fold": 1,
+          "n_test": 70,
+          "n_priority": 16,
+          "n_states": 23,
+          "threshold": 0.4023,
+          "class_1_recall": 0.8125,
+          "class_1_precision": 0.41935483870967744,
+          "class_1_f2": 0.6842105263157895,
+          "class_1_roc_auc": 0.7488425925925926
+        },
+        {
+          "fold": 2,
+          "n_test": 70,
+          "n_priority": 16,
+          "n_states": 26,
+          "threshold": 0.423,
+          "class_1_recall": 0.75,
+          "class_1_precision": 0.5217391304347826,
+          "class_1_f2": 0.6896551724137931,
+          "class_1_roc_auc": 0.7569444444444444
+        },
+        {
+          "fold": 3,
+          "n_test": 69,
+          "n_priority": 16,
+          "n_states": 20,
+          "threshold": 0.378,
+          "class_1_recall": 0.875,
+          "class_1_precision": 0.3888888888888889,
+          "class_1_f2": 0.7,
+          "class_1_roc_auc": 0.7606132075471698
+        },
+        {
+          "fold": 4,
+          "n_test": 69,
+          "n_priority": 16,
+          "n_states": 22,
+          "threshold": 0.4138,
+          "class_1_recall": 0.75,
+          "class_1_precision": 0.375,
+          "class_1_f2": 0.625,
+          "class_1_roc_auc": 0.7311320754716981
+        },
+        {
+          "fold": 5,
+          "n_test": 69,
+          "n_priority": 16,
+          "n_states": 19,
+          "threshold": 0.3658,
+          "class_1_recall": 1.0,
+          "class_1_precision": 0.38095238095238093,
+          "class_1_f2": 0.7547169811320755,
+          "class_1_roc_auc": 0.9080188679245284
+        }
+      ]
+    },
+    "state_grouped": {
+      "pooled": {
+        "class_1_recall": 0.775,
+        "class_1_precision": 0.38271604938271603,
+        "class_1_f2": 0.6431535269709544,
+        "class_1_roc_auc": 0.7222846441947566
+      },
+      "fold_mean": {
+        "class_1_recall": 0.7279624893435634,
+        "class_1_precision": 0.4156000192719228,
+        "class_1_f2": 0.614863701751543,
+        "class_1_roc_auc": 0.7096409830930452
+      },
+      "fold_std": {
+        "class_1_recall": 0.19098579517248887,
+        "class_1_precision": 0.08904466715790506,
+        "class_1_f2": 0.09725350092024397,
+        "class_1_roc_auc": 0.0832622455030586
+      },
+      "folds": [
+        {
+          "fold": 1,
+          "n_test": 76,
+          "n_priority": 18,
+          "n_states": 7,
+          "threshold": 0.4155,
+          "class_1_recall": 1.0,
+          "class_1_precision": 0.3673469387755102,
+          "class_1_f2": 0.743801652892562,
+          "class_1_roc_auc": 0.6915708812260537
+        },
+        {
+          "fold": 2,
+          "n_test": 63,
+          "n_priority": 17,
+          "n_states": 6,
+          "threshold": 0.35,
+          "class_1_recall": 0.6470588235294118,
+          "class_1_precision": 0.3235294117647059,
+          "class_1_f2": 0.5392156862745098,
+          "class_1_roc_auc": 0.6534526854219949
+        },
+        {
+          "fold": 3,
+          "n_test": 80,
+          "n_priority": 23,
+          "n_states": 6,
+          "threshold": 0.3294,
+          "class_1_recall": 0.8260869565217391,
+          "class_1_precision": 0.36538461538461536,
+          "class_1_f2": 0.6597222222222222,
+          "class_1_roc_auc": 0.6178489702517163
+        },
+        {
+          "fold": 4,
+          "n_test": 67,
+          "n_priority": 18,
+          "n_states": 8,
+          "threshold": 0.4018,
+          "class_1_recall": 0.6666666666666666,
+          "class_1_precision": 0.5217391304347826,
+          "class_1_f2": 0.631578947368421,
+          "class_1_roc_auc": 0.7607709750566893
+        },
+        {
+          "fold": 5,
+          "n_test": 61,
+          "n_priority": 4,
+          "n_states": 7,
+          "threshold": 0.4344,
+          "class_1_recall": 0.5,
+          "class_1_precision": 0.5,
+          "class_1_f2": 0.5,
+          "class_1_roc_auc": 0.8245614035087719
+        }
+      ]
+    }
+  },
+  "generalisation_gap": {
+    "class_1_recall": 0.10953751065643658,
+    "class_1_precision": 0.0015870285252231886,
+    "class_1_f2": 0.07585283422078848,
+    "class_1_roc_auc": 0.07146925450304142
+  },
+  "per_state_recall": [
+    {
+      "state": "Sikkim",
+      "n_priority": 3,
+      "detected": 0,
+      "recall_when_state_held_out": 0.0
+    },
+    {
+      "state": "Telangana",
+      "n_priority": 4,
+      "detected": 0,
+      "recall_when_state_held_out": 0.0
+    },
+    {
+      "state": "Punjab",
+      "n_priority": 7,
+      "detected": 4,
+      "recall_when_state_held_out": 0.5714285714285714
+    },
+    {
+      "state": "Assam",
+      "n_priority": 3,
+      "detected": 2,
+      "recall_when_state_held_out": 0.6666666666666666
+    },
+    {
+      "state": "Chhattisgarh",
+      "n_priority": 4,
+      "detected": 3,
+      "recall_when_state_held_out": 0.75
+    },
+    {
+      "state": "Odisha",
+      "n_priority": 5,
+      "detected": 4,
+      "recall_when_state_held_out": 0.8
+    },
+    {
+      "state": "Rajasthan",
+      "n_priority": 10,
+      "detected": 8,
+      "recall_when_state_held_out": 0.8
+    },
+    {
+      "state": "Madhya Pradesh",
+      "n_priority": 10,
+      "detected": 9,
+      "recall_when_state_held_out": 0.9
+    },
+    {
+      "state": "Andaman & Nicobar Island",
+      "n_priority": 3,
+      "detected": 3,
+      "recall_when_state_held_out": 1.0
+    },
+    {
+      "state": "Gujarat",
+      "n_priority": 3,
+      "detected": 3,
+      "recall_when_state_held_out": 1.0
+    },
+    {
+      "state": "Haryana",
+      "n_priority": 10,
+      "detected": 10,
+      "recall_when_state_held_out": 1.0
+    },
+    {
+      "state": "NCT of Delhi",
+      "n_priority": 3,
+      "detected": 3,
+      "recall_when_state_held_out": 1.0
+    },
+    {
+      "state": "Uttar Pradesh",
+      "n_priority": 5,
+      "detected": 5,
+      "recall_when_state_held_out": 1.0
+    }
+  ],
+  "label_sensitivity": [
+    {
+      "variant": "baseline",
+      "settings": "",
+      "n_priority": 80,
+      "priority_jaccard_vs_baseline": 1.0,
+      "baseline_priority_retained": 1.0,
+      "all_class_agreement": 1.0
+    },
+    {
+      "variant": "mortality_only",
+      "settings": "{\"mortality_weight\": 1.0, \"morbidity_weight\": 0.0}",
+      "n_priority": 80,
+      "priority_jaccard_vs_baseline": 1.0,
+      "baseline_priority_retained": 1.0,
+      "all_class_agreement": 1.0
+    },
+    {
+      "variant": "care_threshold_80pct",
+      "settings": "{\"care_threshold\": 80.0}",
+      "n_priority": 163,
+      "priority_jaccard_vs_baseline": 0.49079754601226994,
+      "baseline_priority_retained": 1.0,
+      "all_class_agreement": 0.6753246753246753
+    },
+    {
+      "variant": "residual_threshold_0",
+      "settings": "{\"residual_threshold\": 0.0}",
+      "n_priority": 117,
+      "priority_jaccard_vs_baseline": 0.6837606837606838,
+      "baseline_priority_retained": 1.0,
+      "all_class_agreement": 0.9466089466089466
+    },
+    {
+      "variant": "residual_threshold_0.5",
+      "settings": "{\"residual_threshold\": 0.5}",
+      "n_priority": 59,
+      "priority_jaccard_vs_baseline": 0.7375,
+      "baseline_priority_retained": 0.7375,
+      "all_class_agreement": 0.9696969696969697
+    },
+    {
+      "variant": "eb_prior_1000",
+      "settings": "{\"eb_prior_live_births\": 1000}",
+      "n_priority": 79,
+      "priority_jaccard_vs_baseline": 0.9156626506024096,
+      "baseline_priority_retained": 0.95,
+      "all_class_agreement": 0.9855699855699855
+    },
+    {
+      "variant": "eb_prior_10000",
+      "settings": "{\"eb_prior_live_births\": 10000}",
+      "n_priority": 83,
+      "priority_jaccard_vs_baseline": 0.963855421686747,
+      "baseline_priority_retained": 1.0,
+      "all_class_agreement": 0.9797979797979798
+    }
+  ],
+  "notes": "Thresholds are re-chosen inside every outer training fold (inner 3-fold CV). Same model class and hyper-parameters as the selected production model.",
+  "figures": [
+    "validation_random_vs_state_grouped.png",
+    "validation_per_state_recall.png",
+    "validation_label_sensitivity.png"
+  ]
+}
