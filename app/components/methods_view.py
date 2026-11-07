@@ -37,7 +37,7 @@ def _benchmark_table(metrics: dict) -> pd.DataFrame:
 
 def _validation_section(validation: dict) -> None:
     if not validation:
-        st.info("No validation report yet. Run `python -m src.models.validate`.")
+        st.info("Validation results are not available for this build.")
         return
     st.subheader("Does the model generalise to unseen states?")
     rows = []
@@ -138,9 +138,13 @@ def render(data, root: Path) -> None:
     cols[2].metric("Modelled", provenance.get("districts_modelled", "—"))
     cols[3].metric("Features kept", len(metrics.get("feature_columns", [])))
     if provenance.get("hmis_archives_used"):
-        st.write("HMIS archives pooled:", ", ".join(provenance["hmis_archives_used"]))
+        years = [
+            name.replace("hmis_", "").replace("_official.zip", "").replace("_", "–")
+            for name in provenance["hmis_archives_used"]
+        ]
+        st.write("HMIS financial years pooled:", ", ".join(years))
         if provenance.get("hmis_archives_missing"):
-            st.warning(provenance.get("hmis_window_note", ""))
+            st.warning("Some configured HMIS financial years were unavailable; the pooled window is shorter than planned.")
     with st.expander("Feature selection audit (missingness, anchor-proxy and VIF rules)"):
         st.dataframe(data.feature_audit, hide_index=True, use_container_width=True)
     with st.expander("District name reconciliation audit"):

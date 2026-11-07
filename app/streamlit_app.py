@@ -55,8 +55,7 @@ def main() -> None:
     )
     missing = missing_artefacts()
     if missing:
-        st.error(f"Pipeline artefacts are missing ({', '.join(missing)}). Run the pipeline first:")
-        st.code("python -m src.run_pipeline          # official NFHS-5 + HMIS data\npython -m src.run_pipeline --demo   # synthetic demo", language="bash")
+        st.error("Results are not available yet. Please check back later.")
         return
     version = artefact_version()
     data = load_artefacts(version)

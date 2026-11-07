@@ -4,5 +4,11 @@ headless = true
 [browser]
 gatherUsageStats = false
 
+[client]
+# Viewers see a generic message instead of tracebacks (which reveal server paths and source lines),
+# and only a minimal toolbar without developer options.
+showErrorDetails = false
+toolbarMode = "minimal"
+
 [theme]
 primaryColor = "#1d5c86"
